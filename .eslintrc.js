@@ -14,7 +14,9 @@ module.exports = {
     "linebreak-style": "off",
     "no-plusplus": "off",
     "no-useless-escape": "off",
-    "max-len": ["error", { ignoreComments: true }],
+    "no-unused-expressions": "off",
+    "max-len": "off",
+    // "max-len": ["error", { ignoreComments: true }],
     "import/extensions": [0, { js: "always" }],
   },
 };
