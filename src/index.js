@@ -35,9 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 weatherButton.addEventListener("click", () => {
-  citiesList.options[citiesList.options.length] = new Option(city.value);
-  if (citiesList.options.length >= 10) {
-    citiesList.options[0].remove;
+  let isExist = false;
+  const newCity = city.value;
+  for (let i = 0; i < citiesList.options.length; i++) {
+    if (citiesList.options[i].textContent === newCity) {
+      isExist = true;
+    }
+  }
+  if (!isExist) {
+    citiesList.options[citiesList.options.length] = new Option(city.value);
+    if (citiesList.options.length >= 10) {
+      citiesList.options[0].remove;
+    }
   }
   getWeather();
 });
