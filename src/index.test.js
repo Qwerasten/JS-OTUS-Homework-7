@@ -1,10 +1,16 @@
 import {
-  /* getWeather,
-  addCityToList, */
+  getWeather,
+  addCityToList,
   addOnContentLoader,
   addWeatherButtonClick,
   addOnListChange,
-} from "./functions.js";
+} from "./func.js";
+
+
+
+import fetchMock from "jest-fetch-mock";
+import { functions } from "lodash";
+
 
 describe("page functions", () => {
   document.body.innerHTML = `<div>
@@ -22,14 +28,53 @@ describe("page functions", () => {
   <div class="temperature"></div>
   <div class="weather-description"></div>
   <img class="mapSurface">`;
-  /* const temperature = document.querySelector(".temperature");
+  const temperature = document.querySelector(".temperature");
   const weatherDescription = document.querySelector(".weather-description");
   const city = document.querySelector(".city");
   const weatherButton = document.querySelector(".weather-button");
   const citiesList = document.querySelector(".cities-list");
-  const mapSurface = document.querySelector(".mapSurface"); */
+  const mapSurface = document.querySelector(".mapSurface");
+  let latitude = "0";
+  let longitude = "0";
 
-  addOnContentLoader();
+  fetchMock.enableMocks();
+  beforeEach(() => {
+    fetch.resetMocks();
+  });
+  /*
+    it("testing getWeather set data", async () => {
+      fetch.mockResponseOnce(JSON.stringify({
+        main: { temp: 25 },
+        weather: [{ description: 'cloudly' }],
+        coord: { lat: "37.677751", lon: "55.757718" }
+      }));
+      const res = await getWeather();
+      expect(temperature.textContent).toEqual(`25°C`);
+      expect(weatherDescription.textContent).toEqual(`cloudly`);
+      expect(latitude).toEqual("37.677751");
+      expect(longitude).toBeCloseTo("55.757718");
+    });
+  */
+  it("testing initial loader", async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ city: "Казань" }),
+      })
+    );
+    addOnContentLoader();
+
+    jest.mock('./func.js', () => ({
+      ...jest.requireActual('./func.js'),
+      getWeather: () => Promise.resolve(1)
+    }));
+
+
+    document.dispatchEvent(new Event("DOMContentLoaded"));
+    expect(city.value).toEqual(`Казань`);
+  });
+
+
+  /*addOnContentLoader();
   addWeatherButtonClick();
   addOnListChange();
 
@@ -37,7 +82,7 @@ describe("page functions", () => {
 
   it("testing initial loading", () => {
     document.dispatchEvent(new Event("DOMContentLoaded"));
-  });
+  });*/
 
   /* it("testing events", () => {
     addOnContentLoader();

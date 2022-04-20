@@ -3,7 +3,7 @@ import {
   addOnContentLoader,
   addWeatherButtonClick,
   addOnListChange,
-} from "./functions.js";
+} from "./func.js";
 
 /* const temperature = document.querySelector(".temperature");
 const weatherDescription = document.querySelector(".weather-description");

@@ -12,4 +12,10 @@ module.exports = (api) => ({
       },
     ],
   ],
+  "plugins": [
+    ["@babel/plugin-transform-runtime", {
+      "regenerator": true
+    }]
+  ]
 });
+
