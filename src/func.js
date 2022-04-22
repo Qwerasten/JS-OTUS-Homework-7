@@ -3,23 +3,20 @@ import { getWeather } from "./getweath.js";
 export async function loadFirst() {
   const url = "https://get.geojs.io/v1/ip/geo.json";
   const city = document.querySelector(".city");
-  let wth = 1;
   let data;
+  let fetchRes = 0;
+  let weatherRes = 0;
 
-  const res = await fetch(url);
-  if (res) {
-    data = await res.json();
+  fetchRes = await fetch(url);
+  if (fetchRes) {
+    data = await fetchRes.json();
   }
   if (data) {
     city.value = data.city;
-    wth = await getWeather();
+    weatherRes = await getWeather();
   }
-  return wth;
+  return weatherRes;
 }
-export function addOnContentLoader() {
-  document.addEventListener("DOMContentLoaded", loadFirst);
-}
-
 export function addCityToList() {
   const city = document.querySelector(".city");
   const citiesList = document.querySelector(".cities-list");
@@ -39,22 +36,29 @@ export function addCityToList() {
     }
   }
 }
+export async function onWeatherButtonClick() {
+  addCityToList();
+  const res = await getWeather();
+  return res;
+}
+export async function onCitiesChange() {
+  const city = document.querySelector(".city");
+  const citiesList = document.querySelector(".cities-list");
+  city.value = citiesList.options[citiesList.selectedIndex].text;
+  const res = await getWeather();
+  return res;
+}
+
+export function addOnContentLoader() {
+  document.addEventListener("DOMContentLoaded", loadFirst);
+}
 
 export function addWeatherButtonClick() {
   const weatherButton = document.querySelector(".weather-button");
-  weatherButton.addEventListener("click", async () => {
-    addCityToList();
-    const res = await getWeather();
-    return res;
-  });
+  weatherButton.addEventListener("click", onWeatherButtonClick);
 }
 
 export function addOnListChange() {
-  const city = document.querySelector(".city");
   const citiesList = document.querySelector(".cities-list");
-  citiesList.addEventListener("change", async () => {
-    city.value = citiesList.options[citiesList.selectedIndex].text;
-    const res = await getWeather();
-    return res;
-  });
+  citiesList.addEventListener("change", onCitiesChange);
 }

@@ -1,5 +1,5 @@
 import fetchMock from "jest-fetch-mock";
-import { addCityToList, loadFirst } from "./func.js";
+import { addCityToList, loadFirst, onWeatherButtonClick } from "./func.js";
 
 import * as getWeatherFT from "./getweath.js";
 
@@ -66,5 +66,11 @@ describe("page functions", () => {
     addCityToList();
     expect(citiesList.options.length).toEqual(5);
     expect(citiesList.options[4].textContent).toEqual("Томск");
+  });
+  it("testing show typed city", async () => {
+    const mock = jest.spyOn(getWeatherFT, "getWeather");
+    mock.mockImplementation(() => 1);
+    const res = await onWeatherButtonClick();
+    expect(res).toEqual(1);
   });
 });
