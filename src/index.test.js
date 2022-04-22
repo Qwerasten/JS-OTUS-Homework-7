@@ -1,16 +1,7 @@
-import {
-  getWeather,
-  addCityToList,
-  addOnContentLoader,
-  addWeatherButtonClick,
-  addOnListChange,
-} from "./func.js";
-
-
-
 import fetchMock from "jest-fetch-mock";
-import { functions } from "lodash";
+import { addCityToList, loadFirst } from "./func.js";
 
+import * as getWeatherFT from "./getweath.js";
 
 describe("page functions", () => {
   document.body.innerHTML = `<div>
@@ -31,69 +22,49 @@ describe("page functions", () => {
   const temperature = document.querySelector(".temperature");
   const weatherDescription = document.querySelector(".weather-description");
   const city = document.querySelector(".city");
-  const weatherButton = document.querySelector(".weather-button");
   const citiesList = document.querySelector(".cities-list");
-  const mapSurface = document.querySelector(".mapSurface");
-  let latitude = "0";
-  let longitude = "0";
 
   fetchMock.enableMocks();
-  beforeEach(() => {
+
+  it("testing getWeather set data", async () => {
     fetch.resetMocks();
-  });
-  /*
-    it("testing getWeather set data", async () => {
-      fetch.mockResponseOnce(JSON.stringify({
+    fetch.mockResponseOnce(
+      JSON.stringify({
         main: { temp: 25 },
-        weather: [{ description: 'cloudly' }],
-        coord: { lat: "37.677751", lon: "55.757718" }
-      }));
-      const res = await getWeather();
-      expect(temperature.textContent).toEqual(`25°C`);
-      expect(weatherDescription.textContent).toEqual(`cloudly`);
-      expect(latitude).toEqual("37.677751");
-      expect(longitude).toBeCloseTo("55.757718");
-    });
-  */
+        weather: [{ description: "cloudly" }],
+        coord: { lat: "37.677751", lon: "55.757718" },
+      })
+    );
+    const res = await getWeatherFT.getWeather();
+    expect(res).toEqual(1);
+    expect(temperature.textContent).toEqual(`25°C`);
+    expect(weatherDescription.textContent).toEqual(`cloudly`);
+  });
+
   it("testing initial loader", async () => {
+    fetch.resetMocks();
     global.fetch = jest.fn(() =>
       Promise.resolve({
         json: () => Promise.resolve({ city: "Казань" }),
       })
     );
-    addOnContentLoader();
-
-    jest.mock('./func.js', () => ({
-      ...jest.requireActual('./func.js'),
-      getWeather: () => Promise.resolve(1)
-    }));
-
-
-    document.dispatchEvent(new Event("DOMContentLoaded"));
+    const mock = jest.spyOn(getWeatherFT, "getWeather");
+    mock.mockImplementation(() => 1);
+    const res = await loadFirst();
+    expect(res).toEqual(1);
     expect(city.value).toEqual(`Казань`);
   });
 
+  it("testing add existing city", () => {
+    city.value = "Воронеж";
+    addCityToList();
+    expect(citiesList.options.length).toEqual(4);
+  });
 
-  /*addOnContentLoader();
-  addWeatherButtonClick();
-  addOnListChange();
-
-  jest.spyOn(window, "fetch").mockImplementationOnce(() => "");
-
-  it("testing initial loading", () => {
-    document.dispatchEvent(new Event("DOMContentLoaded"));
-  });*/
-
-  /* it("testing events", () => {
-    addOnContentLoader();
-    addWeatherButtonClick();
-    addOnListChange();
-       
-    input.value = "test-paragraph";
-    input.dispatchEvent(new Event("input"));
-    expect(button.style.visibility).toBe("visible");
-
-    button.dispatchEvent(new Event("click"));
-    expect(document.querySelectorAll("p").length).toBe(4);
-  }); */
+  it("testing add new city", () => {
+    city.value = "Томск";
+    addCityToList();
+    expect(citiesList.options.length).toEqual(5);
+    expect(citiesList.options[4].textContent).toEqual("Томск");
+  });
 });

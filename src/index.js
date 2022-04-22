@@ -12,8 +12,8 @@ const weatherButton = document.querySelector(".weather-button");
 const citiesList = document.querySelector(".cities-list");
 const mapSurface = document.querySelector(".mapSurface");
 const citiesMaxNum = 10; */
-/* let latitude = "0";
-let longitude = "0"; */
+/* latitude = "0";возможно их надо импортировать из func, переделала для теста, не проверяла
+longitude = "0"; */
 
 addOnContentLoader();
 addWeatherButtonClick();

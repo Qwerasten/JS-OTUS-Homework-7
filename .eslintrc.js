@@ -16,7 +16,7 @@ module.exports = {
     "no-useless-escape": "off",
     "no-unused-expressions": "off",
     "max-len": "off",
-    // "max-len": ["error", { ignoreComments: true }],
+    "import/prefer-default-export": "off",
     "import/extensions": [0, { js: "always" }],
   },
 };
