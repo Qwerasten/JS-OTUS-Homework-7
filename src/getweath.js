@@ -6,7 +6,7 @@ export async function getWeather() {
   let latitude = "0";
   let longitude = "0";
 
-  const url = `http://api.openweathermap.org/data/2.5/weather?q=${city.value}&
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&
     lang=ru&appid=f20c8916f3149b32453c05ef83ba4f64&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
