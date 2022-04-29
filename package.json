@@ -21,9 +21,6 @@
     "url": "https://github.com/Qwerasten/JS-OTUS-Homework-7/issues"
   },
   "homepage": "https://github.com/Qwerasten/JS-OTUS-Homework-7#readme",
-  "dependencies": {
-    "lodash": "^4.17.21"
-  },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.8",
