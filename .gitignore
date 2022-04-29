@@ -1,0 +1,4 @@
+node_modules
+dist
+src/version_0.js
+coverage
