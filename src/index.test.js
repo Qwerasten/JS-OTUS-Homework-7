@@ -1,6 +1,10 @@
 import fetchMock from "jest-fetch-mock";
-// import { addCityToList, loadFirst, onWeatherButtonClick, onCitiesChange } from "./func.js";
-import { loadFirst } from "./func.js";
+import {
+  addCityToList,
+  loadFirst,
+  onWeatherButtonClick,
+  onCitiesChange,
+} from "./func.js";
 
 import * as getWeatherFT from "./getweath.js";
 
@@ -28,7 +32,6 @@ describe("page functions", () => {
   fetchMock.enableMocks();
 
   it("testing getWeather set data", async () => {
-    // fetch.resetMocks();
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
@@ -60,7 +63,7 @@ describe("page functions", () => {
     expect(city.value).toEqual(`Казань`);
   });
 
-  /* it("testing add existing city", () => {
+  it("testing add existing city", () => {
     city.value = "Воронеж";
     addCityToList();
     expect(citiesList.options.length).toEqual(4);
@@ -74,17 +77,17 @@ describe("page functions", () => {
   });
   it("testing getWeather on button click", async () => {
     const mockGetWeather = jest.spyOn(getWeatherFT, "getWeather");
-    mockGetWeather.mockImplementation(() => { });
+    mockGetWeather.mockImplementation(() => {});
     await onWeatherButtonClick();
     expect(mockGetWeather).toBeCalledTimes(1);
-    expect(localStorage['list']).toEqual(citiesList.innerHTML);
+    expect(localStorage.list).toEqual(citiesList.innerHTML);
   });
   it("testing getWeather on list change", async () => {
     const mockGetWeather = jest.spyOn(getWeatherFT, "getWeather");
-    mockGetWeather.mockImplementation(() => { });
+    mockGetWeather.mockImplementation(() => {});
     citiesList.selectedIndex = 2;
     await onCitiesChange();
-    expect(city.value).toEqual('Москва');
+    expect(city.value).toEqual("Москва");
     expect(mockGetWeather).toBeCalledTimes(1);
-  }); */
+  });
 });
